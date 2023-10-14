@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import {reactive} from "vue"
+import {reactive, ref} from "vue"
 import AppPlug404 from "./AppPlug404.vue"
 // import AppPlugLoading from "./AppPlugLoading.vue"
 import {useApi} from "@/components/features/useApi"
@@ -109,12 +109,15 @@ export default {
     setup( ){
         const {
             // appPageData,
-            isPageDataLoaded,
+            // isPageDataLoaded,
             is404Plug,
-            isLoading,
+            // isLoading,
         } = useApi('')
 
+        const isPageDataLoaded = ref(true)
+        const isLoading = ref(false)
         const appPageData = reactive(appData)
+
         const currentConfig = reactive({
             formType: 1,
             coffePrograms: 0,
@@ -132,13 +135,9 @@ export default {
             currentConfig.sameMakingSpots = type
         }
         function saveCurrentConfig() {
-            console.log('сохранение текущего конфига');
             const readyConfig = reactive({})
-
             Object.assign(readyConfig, currentConfig)
             appPageData.savedConfigs.push(readyConfig)
-
-            console.log(appPageData);
         }
         
         return {

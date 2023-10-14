@@ -36,20 +36,23 @@
                             <p class="configurator-result-item__desc">
                                 {{ `Тип:${typeNames[item.formType]},   Программ: ${item.coffePrograms},   Приготовлений за раз: ${item.sameMakingSpots}` }}
                             </p>
-                            <div class="configurator-result-item__count-wrapper">
-                                <button 
+                            <div class="configurator-result-item__controls-wrapper">
+                                <div class="configurator-result-item__count-wrapper">
+                                    <button 
                                     @click="incrCount(item)"
                                     class="configurator-result-item__controls"
-                                >
-                                -
-                                </button>
-                                <span class="configurator-result-item__count"> {{ item.count }}</span>
-                                <button 
-                                    @click="decrCount(item)"
-                                    class="configurator-result-item__controls"
-                                >
-                                    +
-                                </button>
+                                    >
+                                        -
+                                    </button>
+                                    <span class="configurator-result-item__count"> {{ item.count }}</span>
+                                    <button 
+                                        @click="decrCount(item)"
+                                        class="configurator-result-item__controls"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+
                                 <button 
                                     @click="deleteConfig(index)"
                                     class="configurator-result-item__controls"
@@ -68,7 +71,7 @@
 
 <script>
 
-import {reactive} from "vue"
+import {reactive, ref} from "vue"
 import {appData, typeNames} from "@/components/features/appData"
 import AppPlug404 from "./AppPlug404.vue"
 // import AppPlugLoading from "./AppPlugLoading.vue"
@@ -86,11 +89,13 @@ export default {
     setup( ){
         const {
             // appPageData,
-            isPageDataLoaded,
-            is404Plug,
-            isLoading,
+            // isPageDataLoaded,
+            // isLoading,
+            is404Plug
         } = useApi('')
 
+        const isPageDataLoaded = ref(true)
+        const isLoading = ref(false)
         const appPageData = reactive(appData)
 
         function incrCount(item) {

@@ -6,17 +6,33 @@
     &__desc {
         margin-top: 16px;
         text-align: center;
+        font-size: 14px;
+        line-height: 16px;
+
+        @media (min-width: $tablet-width) {
+            font-size: 18px;
+            line-height: 22px;
+        }
     }
 
     &__value {
-        font-size: 18px;
-        line-height: 22px;
+        font-size: 14px;
+        line-height: 16px;
         font-weight: 700;
+
+        @media (min-width: $tablet-width) {
+            font-size: 18px;
+            line-height: 22px;
+        }
     }
 
     &__img {
-        height: 150px;
+        height: 80px;
         width: 100%;
         object-fit: cover;
+
+        @media (min-width: $tablet-width) {
+            height: 150px;
+        }
     }
 }
