@@ -11,7 +11,17 @@ export const useApi = (path) => {
 
     const loadApiMethods = async() => {
          Object.assign(appPageData, await apiMethods.index( path ))
-       
+
+         if (localStorage.configs) {
+            console.log('есть данные в локал сторадж');
+            console.log(JSON.parse(localStorage.configs));
+            const savedConfigs = JSON.parse(localStorage.configs)
+            appPageData.savedConfigs = savedConfigs
+        } else {
+            console.log('нет данных в ЛС');
+            appPageData.savedConfigs = []
+        }
+        
         if (appPageData.dataEmpty === true) {
             Object.assign(appPageData, appData)
 

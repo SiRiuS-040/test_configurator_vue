@@ -99,13 +99,19 @@ export default {
         function incrCount(item) {
             if (item.count > 1)  {
                 item.count--
-            }    
+            }
+            saveConfigsInLS()    
         }
         function decrCount(item) {
             item.count++
+            saveConfigsInLS()
         }
         function deleteConfig(index) {
             appPageData.savedConfigs.splice(index, 1)
+            saveConfigsInLS()
+        }
+        function saveConfigsInLS() {
+            localStorage.configs = JSON.stringify(appPageData.savedConfigs)
         }
         
         return {

@@ -113,14 +113,13 @@ export default {
 
     },
     setup( ){
-        const dataPath = 'data-config'
-        const {
+          const {
             appPageData,
             isPageDataLoaded,
             is404Plug,
             isLoading,
             isOfflinePlug
-        } = useApi(dataPath)
+        } = useApi('')
 
         const currentConfig = reactive({
             formType: undefined,
@@ -147,7 +146,8 @@ export default {
             currentConfig.formType = undefined 
             currentConfig.coffePrograms = undefined 
             currentConfig.sameMakingSpots = undefined
-        }
+        }  
+
         function checkDubs(newConfig) {
             const savedConfs = appPageData.savedConfigs
             if (savedConfs.length) {
@@ -181,7 +181,7 @@ export default {
             isDub = false
             localStorage.configs = JSON.stringify(appPageData.savedConfigs)
             resetCurrentConfig()
-            console.log(localStorage.configs);
+            // console.log(localStorage.configs);
         }
         
         return {
