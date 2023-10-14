@@ -2,12 +2,17 @@
     <div
         class="app-page"
     >
-        <!-- <AppPlugLoading v-if="isLoading" /> -->
         <AppPlug404 v-if="is404Plug && !isLoading" />
         <section 
+            v-if="isPageDataLoaded && !isLoading"
             class="app-page__content"
         >
-        <!-- v-if="isPageDataLoaded && !isLoading"  -->
+            <div 
+                v-if="isOfflinePlug"
+                class="configurator__section alert"
+            >
+                <p class="configurator__title">Работа в Оффлайн режиме!!! Пожалуйста запустите проект и сервер  локально</p>
+            </div>
             <router-link 
                 to="/"
             >
@@ -34,7 +39,7 @@
                             class="configurator-result-item"
                         >
                             <p class="configurator-result-item__desc">
-                                {{ `Тип:${typeNames[item.formType]},   Программ: ${item.coffePrograms},   Приготовлений за раз: ${item.sameMakingSpots}` }}
+                                {{ `Тип:${appPageData.typeNames[item.formType]},   Программ: ${item.coffePrograms},   Приготовлений за раз: ${item.sameMakingSpots}` }}
                             </p>
                             <div class="configurator-result-item__controls-wrapper">
                                 <div class="configurator-result-item__count-wrapper">
@@ -71,32 +76,25 @@
 
 <script>
 
-import {reactive, ref} from "vue"
-import {appData, typeNames} from "@/components/features/appData"
 import AppPlug404 from "./AppPlug404.vue"
-// import AppPlugLoading from "./AppPlugLoading.vue"
 import {useApi} from "@/components/features/useApi"
 
 export default {
     name: "PageResult",
     components: {
         AppPlug404,
-        // AppPlugLoading
     },
     mounted() {
 
     },
     setup( ){
         const {
-            // appPageData,
-            // isPageDataLoaded,
-            // isLoading,
-            is404Plug
+            appPageData,
+            isPageDataLoaded,
+            isLoading,
+            is404Plug,
+            isOfflinePlug
         } = useApi('')
-
-        const isPageDataLoaded = ref(true)
-        const isLoading = ref(false)
-        const appPageData = reactive(appData)
 
         function incrCount(item) {
             if (item.count > 1)  {
@@ -115,8 +113,7 @@ export default {
             isPageDataLoaded,
             is404Plug,
             isLoading,
-            
-            typeNames,
+            isOfflinePlug,
             incrCount,
             decrCount,
             deleteConfig

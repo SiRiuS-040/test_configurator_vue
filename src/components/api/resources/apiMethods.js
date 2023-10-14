@@ -4,7 +4,7 @@ export default {
     index( path ){
         return fetch( APISettings.baseURL + `${path}`, {
             method: 'GET',
-            headers: APISettings.headers
+            headers: APISettings.headers,
         } )
             .then( function( response ){
                 if( response.status != 200 ){

@@ -2,8 +2,6 @@
   background-image: url('/src/assets/img/bg.jpg');
 
   &__content {
-    margin-top: 32px;
-    margin-bottom: 32px;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -11,8 +9,6 @@
 
     @media (min-width: $tablet-width) {
       padding: 40px;
-      margin-top: 64px;
-      margin-bottom: 64px;
     }
   }
 }

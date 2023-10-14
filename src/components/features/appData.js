@@ -92,12 +92,11 @@ export const appData = {
             sameMakingSpots: 1
         },
     ],
-    savedConfigs: []
-}
-
-export const typeNames = {
-    1: 'Мини',
-    2: 'Компакт',
-    3: 'Большая',
-    4: 'Фабрика',
+    savedConfigs: [],
+    typeNames: {
+        1: 'Мини',
+        2: 'Компакт',
+        3: 'Большая',
+        4: 'Фабрика',
+    }
 }

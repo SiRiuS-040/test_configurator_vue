@@ -2,13 +2,18 @@
     <div
         class="app-page"
     >
-        <!-- <AppPlugLoading v-if="isLoading" /> -->
         <AppPlug404 v-if="is404Plug && !isLoading" />
         <section 
+            v-if="isPageDataLoaded && !isLoading"
             class="app-page__content"
         >
-        <!-- v-if="isPageDataLoaded && !isLoading" -->
             <div class="configurator">
+                <div 
+                    v-if="isOfflinePlug"
+                    class="configurator__section alert"
+                >
+                    <p class="configurator__title">Работа в Оффлайн режиме!!! Пожалуйста запустите проект и сервер  локально</p>
+                </div>
                 <router-link 
                     to="/result"
                 >   
@@ -18,25 +23,30 @@
                     <h2 class="configurator__title">Текущая выбрання кофигурация:</h2>
                     <div class="configurator__result-list">
                         <AppConfiguratorResultType
-                            :itemData="typeNames[currentConfig.formType]"
+                            v-if="currentConfig.formType != undefined"
+                            :itemData="appPageData.typeNames[currentConfig.formType]"
                             :imgPath="require(`../assets/img/form-${currentConfig.formType}.png`)"
                             desc="Тип"
-                            class="configurator__result-type"
+                            class="configurator__result-type configurator__result-type--form"
                         />                        
                         <AppConfiguratorResultType
+                            v-if="currentConfig.coffePrograms != undefined"
                             :itemData="currentConfig.coffePrograms"
                             :imgPath="require(`../assets/img/programs-${currentConfig.coffePrograms}.jpg`)"
                             desc="Программ"
-                            class="configurator__result-type"
+                            class="configurator__result-type configurator__result-type--programs"
                         /> 
                         <AppConfiguratorResultType
+                            v-if="currentConfig.sameMakingSpots != undefined"
                             :itemData="currentConfig.sameMakingSpots"
                             :imgPath="require(`../assets/img/cups-${currentConfig.sameMakingSpots}.jpg`)"
                             desc="Приготовлений за раз"
-                            class="configurator__result-type"
+                            class="configurator__result-type configurator__result-type--spots"
                         /> 
                     </div>
+                    <h2 v-if="!isCanSave">Для сохранения выберите все опции</h2>
                     <button 
+                        v-if="isCanSave"
                         @click="saveCurrentConfig"
                         class="configurator__save"
                     >
@@ -50,7 +60,7 @@
                         <AppConfiguratorItem
                             v-for="(type, index) in appPageData.formTypes"
                             :key="index"
-                            :itemData="typeNames[type]"
+                            :itemData="appPageData.typeNames[type]"
                             :imgPath="require(`../assets/img/form-${type}.png`)"
                             @click="getItemType(type)"
                             class="configurator__type-item"
@@ -86,12 +96,9 @@
 </template>
 
 <script>
-import {reactive, ref} from "vue"
+import {reactive, computed} from "vue"
 import AppPlug404 from "./AppPlug404.vue"
-// import AppPlugLoading from "./AppPlugLoading.vue"
 import {useApi} from "@/components/features/useApi"
-import {appData, typeNames} from "@/components/features/appData"
-
 import AppConfiguratorItem from "./AppConfiguratorItem.vue"
 import AppConfiguratorResultType from "./AppConfiguratorResultType.vue"
 
@@ -101,28 +108,30 @@ export default {
         AppConfiguratorItem,
         AppConfiguratorResultType,
         AppPlug404,
-        // AppPlugLoading
     },
     mounted() {
 
     },
     setup( ){
+        const dataPath = 'data-config'
         const {
-            // appPageData,
-            // isPageDataLoaded,
+            appPageData,
+            isPageDataLoaded,
             is404Plug,
-            // isLoading,
-        } = useApi('')
-
-        const isPageDataLoaded = ref(true)
-        const isLoading = ref(false)
-        const appPageData = reactive(appData)
+            isLoading,
+            isOfflinePlug
+        } = useApi(dataPath)
 
         const currentConfig = reactive({
-            formType: 1,
-            coffePrograms: 0,
-            sameMakingSpots: 1,
-            count: 1
+            formType: undefined,
+            coffePrograms: undefined,
+            sameMakingSpots: undefined,
+        })
+
+        let isDub = false
+
+        const isCanSave = computed(() => {
+            return currentConfig.formType !== undefined && currentConfig.coffePrograms !== undefined && currentConfig.sameMakingSpots !== undefined ? true : false
         })
 
         function getItemType(type) {
@@ -134,10 +143,45 @@ export default {
         function getSameMakingCups(type) {
             currentConfig.sameMakingSpots = type
         }
+        function resetCurrentConfig() {
+            currentConfig.formType = undefined 
+            currentConfig.coffePrograms = undefined 
+            currentConfig.sameMakingSpots = undefined
+        }
+        function checkDubs(newConfig) {
+            const savedConfs = appPageData.savedConfigs
+            if (savedConfs.length) {
+                savedConfs.forEach((conf) => {
+                    let dubKeys = 0
+                    for (let key in conf) {
+                        if( key !== 'count' ) {
+                            if ( conf[key] === newConfig[key]) {
+                                dubKeys++
+                            } else {
+                                return
+                            }
+                        }
+                    }
+                    if (dubKeys === 3) {
+                        conf.count++
+                        isDub = true
+                    }
+                })
+            }
+        }
+
         function saveCurrentConfig() {
-            const readyConfig = reactive({})
-            Object.assign(readyConfig, currentConfig)
-            appPageData.savedConfigs.push(readyConfig)
+            checkDubs(currentConfig)
+            if (isDub === false) {
+                currentConfig.count = 1
+                const readyConfig = reactive({})
+                Object.assign(readyConfig, currentConfig)
+                appPageData.savedConfigs.push(readyConfig)
+            }
+            isDub = false
+            localStorage.configs = JSON.stringify(appPageData.savedConfigs)
+            resetCurrentConfig()
+            console.log(localStorage.configs);
         }
         
         return {
@@ -145,9 +189,9 @@ export default {
             isPageDataLoaded,
             is404Plug,
             isLoading,
-            
-            typeNames,
+            isOfflinePlug,
             currentConfig,
+            isCanSave,
             getItemType,
             getCoffePrograms,
             getSameMakingCups,
