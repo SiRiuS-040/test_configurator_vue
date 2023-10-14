@@ -1,4 +1,4 @@
-# test_exchange-2_vue
+# test_configurator_vue
 
 https://sirius-040.github.io/test_configurator_vue/#/
 
