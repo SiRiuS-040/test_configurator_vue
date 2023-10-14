@@ -1,0 +1,136 @@
+.app-page-home {   
+
+}
+
+.configurator {
+    &__section {
+        background-color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 32px;
+        border-radius: 32px;
+        padding: 32px;
+    }
+
+    &__result {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+    
+    &__result-list {
+        margin-top: 32px;
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+        grid-template-rows: 1fr;
+        justify-content: space-around;
+        grid-gap: 20px;
+    }
+
+    &__save {
+        padding: 16px;
+        text-transform: uppercase;
+        align-self: center;
+        width: fit-content;
+        border: 1px solid lightgray;
+        background-color: rgb(254, 255, 255);
+        border-radius: 8px;
+    }
+
+    &__link {
+        // margin-bottom: 16px;
+        font-size: 24px;
+        line-height: 30px;
+        font-weight: 700;
+        // width: fit-content;
+    }
+
+    &__option-title {
+        margin-top: 64px;
+        margin-bottom: 32px;
+        font-size: 24px;
+        line-height: 30px;
+        font-weight: 700;
+    }
+
+    &__title {
+        margin-bottom: 32px;
+        font-size: 24px;
+        line-height: 30px;
+        font-weight: 700;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__type-list {
+        margin-top: 8px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 1fr;
+        grid-gap: 20px;
+    }
+
+    &__type-item {
+        cursor: pointer;
+    }
+}
+
+.configurator-result-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__desc {
+        margin-top: 16px;
+        text-align: center;
+    }
+
+    &__value {
+        font-size: 18px;
+        line-height: 22px;
+        font-weight: 700;
+    }
+
+    &__img {
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+//
+
+.configurator-result {
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+.configurator-result-item {
+    display: grid;
+    
+    grid-template-columns: 1fr auto;
+    align-items: center;
+
+    &__desc {
+
+    }
+
+    &__count-wrapper {
+        display: grid;
+        grid-template-columns: auto 50px auto 200px;
+        align-items: center;
+        justify-content: center;
+        grid-gap: 32px;
+    }
+
+    &__controls {
+        padding: 12px;
+    }
+
+    &__count {
+        text-align: center;
+    }
+}

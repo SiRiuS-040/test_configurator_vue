@@ -1,0 +1,31 @@
+.configurator-type-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: 700;
+
+    &:hover {
+        .configurator-type-item__img-wrapper {
+            transition: transform 0.2s;
+            transform: scale(1.05);
+        }
+    }
+
+    &__img-wrapper {
+        overflow: hidden;
+        margin-top: 16px;
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid lightgrey;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &__img {
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+    }
+}
