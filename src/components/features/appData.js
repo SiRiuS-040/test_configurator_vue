@@ -1,14 +1,13 @@
 export const appData = {
     formTypes: [
-        1, 2, 3, 4
+        1, 2
     ],
     coffePrograms: [
-        0, 6, 8, 12
+        0, 6
     ],
     sameMakingSpots: [
-        1, 2, 4, 100
+        1, 2
     ],
-    // savedConfigs: [],
     typeNames: {
         1: 'Мини',
         2: 'Компакт',
